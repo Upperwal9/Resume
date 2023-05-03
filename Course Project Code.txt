@@ -1,0 +1,11 @@
+pam_mod_seq = pammod(symbol_seq, M); //for PAM
+psk_mod_seq = pskmod(symbol_seq, M); // for PSK
+qam_mod_seq = qammod(symbol_seq, M); //for QAM
+SNR = 10^(SNR_dB/10); % convert SNR from dB to linear scale
+noise_var = 1/(2*SNR); % calculate the noise variance
+noise = sqrt(noise_var)*(randn(size(mod_seq))+1i*randn(size(mod_seq))); % generate complex Gaussian noise
+mod_seq_awgn = mod_seq + noise; % add noise to the modulated sequence
+pam_demod_seq = pamdemod(mod_seq_awgn, M); //for PAM
+psk_demod_seq = pskdemod(mod_seq_awgn, M); //for PSK
+qam_demod_seq = qamdemod(mod_seq_awgn, M); //for QAM
+[~, ber] = biterr(symbol_seq, demod_seq);
